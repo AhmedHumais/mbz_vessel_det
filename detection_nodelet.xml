@@ -1,0 +1,9 @@
+<library path="libvessel_det_nodelet">
+    <class name="mbz_vessel_det/DetectionNodelet"
+           type="DetectionNodelet"
+           base_class_type="nodelet::Nodelet">
+        <description>
+        Nodelet for USV controller.
+        </description>
+    </class>
+</library>
