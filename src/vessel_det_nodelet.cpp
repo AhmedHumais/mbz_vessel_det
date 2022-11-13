@@ -25,7 +25,7 @@ void DetectionNodelet::loadParam()
 {
 
   nh_->param<string>("image_sub_topic_name", image_sub_topic_name, "/zedm/zed_node/rgb/image_rect_color");
-  nh_->param<string>("depth_sub_topic_name", depth_sub_topic_name, "/zedm/zed_node/depth");
+  nh_->param<string>("depth_sub_topic_name", depth_sub_topic_name, "/zedm/zed_node/depth/depth_registered");
   nh_->param<string>("namewindow", namewindow, "vessel_det");
   nh_->param<int>("device", YP.DEVICE, 0);
   nh_->param<float>("nms", YP.NMS_THRESH, 0.5);

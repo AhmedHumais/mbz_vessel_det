@@ -14,6 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   nodelet
+  tf2
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -218,7 +220,8 @@ install(FILES
   detection_nodelet.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
+install(FILES engine/vessel.engine
+  DESTINATION share/${PROJECT_NAME}/engine)
 #############
 ## Testing ##
 #############
