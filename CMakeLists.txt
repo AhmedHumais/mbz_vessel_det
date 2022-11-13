@@ -140,7 +140,7 @@ link_directories(
 cuda_add_library(myplugins SHARED src/yololayer.cu)
 target_link_libraries(myplugins nvinfer cudart)
 
-add_library(vessel_det_nodelet src/vessel_det_nodelet.cpp)
+add_library(vessel_det_nodelet src/vessel_det_nodelet.cpp src/yolov5.cpp)
 target_link_libraries(vessel_det_nodelet 
   myplugins 
   cudart 

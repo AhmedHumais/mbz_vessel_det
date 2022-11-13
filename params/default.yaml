@@ -1,0 +1,10 @@
+device: 0   # GPU ID
+nms: 0.45
+conf: 0.5
+batch_size: 1
+input_h: 640
+input_w: 640
+class_num: 2
+engine_dir: /home/ahmed/usv_ws/src/mbz_vessel_det/engine/vessel.engine 
+
+use_sim_time: false

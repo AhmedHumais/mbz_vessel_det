@@ -8,6 +8,31 @@ PLUGINLIB_EXPORT_CLASS(DetectionNodelet, nodelet::Nodelet)
 
 DetectionNodelet::DetectionNodelet()
 {
+}
+
+void DetectionNodelet::loadParam()
+{
+
+  pnh_->param<string>("image_sub_topic_name", image_sub_topic_name, "/zed_node/rgb/image_rect_color");
+  pnh_->param<string>("depth_sub_topic_name", depth_sub_topic_name, "/zed_node/depth/depth_registered");
+  pnh_->param<string>("namewindow", namewindow, "vessel_det");
+  pnh_->param<int>("device", YP.DEVICE, 0);
+  pnh_->param<float>("nms", YP.NMS_THRESH, 0.5);
+  pnh_->param<float>("conf", YP.CONF_THRESH, 0.7);
+  pnh_->param<int>("batch_size", YP.BATCH_SIZE, 1);
+  pnh_->param<int>("input_h", YP.INPUT_H, 640);
+  pnh_->param<int>("input_w", YP.INPUT_W, 640);
+  pnh_->param<int>("class_num", YP.CLASS_NUM, 2);
+  pnh_->param<string>("engine_dir", YP.ENGINE_DIR, "engine/vessel.engine");
+  pnh_->param<double>("MAX_DEPTH", MAX_depth_val, 15);
+
+  ROS_INFO("class_num: '%d'", YP.CLASS_NUM);
+  YParam = &YP;
+  
+}
+
+void DetectionNodelet::onInit()
+{
   nh_ = &(getNodeHandle());
   pnh_ = &(getPrivateNodeHandle());
   this->loadParam();  
@@ -19,31 +44,7 @@ DetectionNodelet::DetectionNodelet()
   cat_need_todet = "vessel_a";
 
   tf2_ros::TransformListener tf_listener(tf_Buffer);
-}
 
-void DetectionNodelet::loadParam()
-{
-
-  nh_->param<string>("image_sub_topic_name", image_sub_topic_name, "/zedm/zed_node/rgb/image_rect_color");
-  nh_->param<string>("depth_sub_topic_name", depth_sub_topic_name, "/zedm/zed_node/depth/depth_registered");
-  nh_->param<string>("namewindow", namewindow, "vessel_det");
-  nh_->param<int>("device", YP.DEVICE, 0);
-  nh_->param<float>("nms", YP.NMS_THRESH, 0.5);
-  nh_->param<float>("conf", YP.CONF_THRESH, 0.7);
-  nh_->param<int>("batch_size", YP.BATCH_SIZE, 1);
-  nh_->param<int>("input_h", YP.INPUT_H, 640);
-  nh_->param<int>("input_w", YP.INPUT_W, 640);
-  nh_->param<int>("class_num", YP.CLASS_NUM, 2);
-  nh_->param<string>("engine_dir", YP.ENGINE_DIR, "engine/vessel.engine");
-  nh_->param<double>("MAX_DEPTH", MAX_depth_val, 15);
-
-  ROS_INFO("class_num: '%d'", YP.CLASS_NUM);
-  YParam = &YP;
-  
-}
-
-void DetectionNodelet::onInit()
-{
   target_err_pub = nh_->advertise<std_msgs::Float32>("/usv/target/error", 1000);
   inertial_cord_pub = nh_->advertise<geometry_msgs::Point>("/usv/target/cord", 1000);
   depth_sub = nh_->subscribe<sensor_msgs::Image>(depth_sub_topic_name, 3, &DetectionNodelet::depthCallback, this);
