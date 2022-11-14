@@ -25,6 +25,7 @@ void DetectionNodelet::loadParam()
   pnh_->param<int>("class_num", YP.CLASS_NUM, 2);
   pnh_->param<string>("engine_dir", YP.ENGINE_DIR, "engine/vessel.engine");
   pnh_->param<double>("MAX_DEPTH", MAX_depth_val, 15);
+  pnh_->param<bool>("show_det_output", show_screen, false);
 
   ROS_INFO("class_num: '%d'", YP.CLASS_NUM);
   YParam = &YP;
@@ -47,6 +48,8 @@ void DetectionNodelet::onInit()
 
   target_err_pub = nh_->advertise<std_msgs::Float32>("/usv/target/error", 1000);
   inertial_cord_pub = nh_->advertise<geometry_msgs::Point>("/usv/target/cord", 1000);
+  detection_pub = nh_->advertise<std_msgs::Bool>("/usv/target/is_detected", 1000);
+  
   depth_sub = nh_->subscribe<sensor_msgs::Image>(depth_sub_topic_name, 3, &DetectionNodelet::depthCallback, this);
 
   image_sub = nh_->subscribe<sensor_msgs::Image>(image_sub_topic_name, 3, &DetectionNodelet::imageCallback, this);
@@ -166,9 +169,14 @@ void DetectionNodelet::imageCallback(const sensor_msgs::ImageConstPtr& msg){
   else {
   	target_cnt = 0;
   }
+  std_msgs::Bool is_detected_msg;
+  is_detected_msg.data = target_flag;
+  detection_pub.publish(is_detected_msg);
   
-  cv::namedWindow(namewindow, 0);
-  cv::resizeWindow(namewindow, 640, 480);
-  cv::imshow(namewindow, out_img);
-  cv::waitKey(5);
+  if(show_screen){
+    cv::namedWindow(namewindow, 0);
+    cv::resizeWindow(namewindow, 640, 480);
+    cv::imshow(namewindow, out_img);
+    cv::waitKey(5);
+  }
 }

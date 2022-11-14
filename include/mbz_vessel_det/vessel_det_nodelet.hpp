@@ -15,6 +15,7 @@
 #include "nodelet/nodelet.h"
 #include "sensor_msgs/Image.h"
 #include "std_msgs/Float32.h"
+#include "std_msgs/Bool.h"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "cv_bridge/cv_bridge.h"
@@ -36,7 +37,7 @@ public:
     ~DetectionNodelet(){};
 
 private:
-    double H_FOV = 1.0472;
+    double H_FOV = 90;
     void loadParam();
     virtual void onInit();
     void imageCallback(const sensor_msgs::ImageConstPtr& msg);
@@ -46,6 +47,7 @@ private:
     ros::NodeHandle *pnh_;
     ros::Publisher target_err_pub;
     ros::Publisher inertial_cord_pub;
+    ros::Publisher detection_pub;
     ros::Subscriber depth_sub;
     ros::Subscriber image_sub;
 
@@ -59,6 +61,7 @@ private:
     cv::Rect target_bb;
     cv::Point target_center;
     double MAX_depth_val = 10;
+    bool show_screen;
 
 public:
     yoloparam YP;
