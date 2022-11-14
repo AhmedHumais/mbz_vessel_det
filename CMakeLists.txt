@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   nodelet
   tf2
   tf2_ros
+  tf2_geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -111,7 +112,7 @@ find_package(CUDA REQUIRED)
 catkin_package(
  INCLUDE_DIRS include
  LIBRARIES myplugins
- CATKIN_DEPENDS cv_bridge geometry_msgs roscpp sensor_msgs std_msgs nodelet
+ CATKIN_DEPENDS cv_bridge geometry_msgs roscpp sensor_msgs std_msgs nodelet tf2 tf2_ros tf2_geometry_msgs
 #  DEPENDS system_lib
 )
 

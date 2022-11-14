@@ -5,6 +5,8 @@ batch_size: 1
 input_h: 640
 input_w: 640
 class_num: 2
-engine_dir: /home/ahmed/usv_ws/src/mbz_vessel_det/engine/vessel.engine 
+engine_dir: /home/ahmed/usv_ws/src/mbz_vessel_det/engine/vessel.engine
+
+show_det_output: true
 
 use_sim_time: false
