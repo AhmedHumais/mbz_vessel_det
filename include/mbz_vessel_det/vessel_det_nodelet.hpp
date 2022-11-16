@@ -18,6 +18,7 @@
 #include "std_msgs/Bool.h"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/PoseStamped.h"
+#include <image_transport/image_transport.h>
 #include "cv_bridge/cv_bridge.h"
 
 #include "tf2_ros/transform_listener.h"
@@ -38,7 +39,7 @@ public:
     ~DetectionNodelet(){};
 
 private:
-    double H_FOV = 90;
+    double H_FOV = 1.5708; // 90 deg
     void loadParam();
     virtual void onInit();
     void imageCallback(const sensor_msgs::ImageConstPtr& msg);
@@ -51,6 +52,8 @@ private:
     ros::Publisher detection_pub;
     ros::Subscriber depth_sub;
     ros::Subscriber image_sub;
+
+    image_transport::Publisher det_img_pub;
 
     tf2_ros::Buffer tf_Buffer;
 

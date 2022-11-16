@@ -45,6 +45,9 @@ void DetectionNodelet::onInit()
 
   tf2_ros::TransformListener tf_listener(tf_Buffer);
 
+  image_transport::ImageTransport it(*nh_);
+  det_img_pub = it.advertise("/detection/image", 2);
+
   target_err_pub = nh_->advertise<std_msgs::Float32>("/usv/target/error", 1000);
   inertial_cord_pub = nh_->advertise<geometry_msgs::Point>("/usv/target/cord", 1000);
   detection_pub = nh_->advertise<std_msgs::Bool>("/usv/target/is_detected", 1000);
@@ -187,7 +190,9 @@ void DetectionNodelet::imageCallback(const sensor_msgs::ImageConstPtr &msg)
   std_msgs::Bool is_detected_msg;
   is_detected_msg.data = target_flag;
   detection_pub.publish(is_detected_msg);
-
+  sensor_msgs::ImagePtr det_img_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", out_img).toImageMsg();
+  det_img_pub.publish(det_img_msg);
+  
   if (show_screen)
   {
     cv::namedWindow(namewindow, 0);
