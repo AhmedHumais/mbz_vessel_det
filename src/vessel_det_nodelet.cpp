@@ -119,22 +119,22 @@ void DetectionNodelet::depthCallback(const sensor_msgs::ImageConstPtr &msg)
       // std::cout << transformStamped.transform.translation.x <<std::endl;
 
       geometry_msgs::PoseStamped tgt_loc;
-      float f_ = 554.3;
+      float f_ = 343.43; float cx_ = 326.23; float cy_ = 181.29;
       tgt_loc.pose.position.y = -(target_center.x / f_) * min_depth;
       tgt_loc.pose.position.z = -(target_center.y / f_) * min_depth;
       tgt_loc.pose.position.x = min_depth;
       tgt_loc.header = msg->header;
 
-      try
-      {
-        tgt_loc = tf_Buffer.transform(tgt_loc, to_frame, ros::Duration(0.1));
-        // transformStamped = tf_Buffer.lookupTransform(to_frame, from_frame, ros::Time(0));
-      }
-      catch (tf2::TransformException &ex)
-      {
-        ROS_WARN("Transform to usv frame not provided (will use identity). Please provide.");
-      }
-      // tf2::doTransform(tgt_loc, tgt_loc, transformStamped);
+      // try
+      // {
+      //   tgt_loc = tf_Buffer.transform(tgt_loc, to_frame, ros::Duration(0.1));
+      //   // transformStamped = tf_Buffer.lookupTransform(to_frame, from_frame, ros::Time(0));
+      // }
+      // catch (tf2::TransformException &ex)
+      // {
+      //   ROS_WARN("Transform to usv frame not provided (will use identity). Please provide.");
+      // }
+      // // tf2::doTransform(tgt_loc, tgt_loc, transformStamped);
 
       inertial_cord_pub.publish(tgt_loc.pose.position);
     }
