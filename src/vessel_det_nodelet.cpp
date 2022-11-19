@@ -120,7 +120,7 @@ void DetectionNodelet::depthCallback(const sensor_msgs::ImageConstPtr &msg)
 
       geometry_msgs::PoseStamped tgt_loc;
       float f_ = 343.43; float cx_ = 326.23; float cy_ = 181.29;
-      tgt_loc.pose.position.y = -(target_center.x / f_) * min_depth;
+      tgt_loc.pose.position.y = (target_center.x / f_) * min_depth;
       tgt_loc.pose.position.z = -(target_center.y / f_) * min_depth;
       tgt_loc.pose.position.x = min_depth;
       tgt_loc.header = msg->header;
